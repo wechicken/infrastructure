@@ -13,3 +13,7 @@ variable "dmz-public-2a" {
 variable "dmz-public-2c" {
   description = "subnet-public-2c"
 }
+
+variable "alb-name" {
+  description = "alb-name"
+}

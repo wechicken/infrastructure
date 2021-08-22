@@ -1,3 +1,3 @@
-output "wechicken-repository" {
-  value = aws_ecr_repository.wechicken-repository
+output "repository" {
+  value = aws_ecr_repository.repository
 }
