@@ -49,3 +49,39 @@ resource "aws_security_group_rule" "web-lb-https-egress" {
 
   lifecycle { create_before_destroy = true }
 }
+
+resource "aws_security_group" "allow-mysql" {
+  vpc_id      = "${var.dmz.id}"
+  name        = "Allow MySQL Security Group"
+  description = "Allow MySQL Security Group"
+
+  ingress = [
+    {
+      description      = "TLS from VPC"
+      from_port        = 3306
+      to_port          = 3306
+      protocol         = "tcp"
+      cidr_blocks      = []
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      security_groups = []
+      self = true
+    }
+  ]
+
+  egress = [
+    {
+      description      = "TLS from VPC"
+      from_port        = 3306
+      to_port          = 3306
+      protocol         = "tcp"
+      cidr_blocks      = []
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      security_groups = []
+      self = true
+    }
+  ]
+
+  tags = { Name = "Allow MySQL Security Group" }  
+}

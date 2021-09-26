@@ -3,8 +3,8 @@ terraform {
 }
 
 provider "aws" {
-  region    = "ap-northeast-2"
-  profile   = "wechicken"
+  region  = "ap-northeast-2"
+  profile = "wechicken"
 }
 
 module "iam" {
@@ -21,42 +21,12 @@ module "security-groups" {
   dmz = module.vpc.dmz
 }
 
-# module "wechicken-ecr" {
-#   source = "./ecr"
-# 
-#   repository-name = "wechicken"
-# }
+module "wechicken-mysql" {
+  source = "./wechicken/database"
 
-# module "wechicken-ecs" {
-#   source = "./ecs"
-# 
-#   cluster-name = "wechicken"
-# }
-# 
-# module "wechicken-development" {
-#   source = "./wechicken/development"
-# 
-#   name = "wechicken"
-#   security-groups-allow-web = module.security-groups.allow-web
-#   vpc-dmz = module.vpc.dmz
-#   dmz-public-2a = module.vpc.dmz-public-2a
-#   dmz-public-2c = module.vpc.dmz-public-2c
-#   repository = module.wechicken-ecr.repository
-#   cluster = module.wechicken-ecs.cluster
-#   iam-role-ecs = module.iam.ecs
-#   desired-capacity = 1
-# }
-# 
-# module "wechicken-production" {
-#   source = "./wechicken/production"
-# 
-#   name = "wechicken"
-#   security-groups-allow-web = module.security-groups.allow-web
-#   vpc-dmz = module.vpc.dmz
-#   dmz-public-2a = module.vpc.dmz-public-2a
-#   dmz-public-2c = module.vpc.dmz-public-2c
-#   repository = module.wechicken-ecr.repository
-#   cluster = module.wechicken-ecs.cluster
-#   iam-role-ecs = module.iam.ecs
-#   desired-capacity = 1
-# }
+  security-groups-allow-mysql = module.security-groups.allow-mysql
+  dmz-private-2a              = module.vpc.dmz-private-2a
+  dmz-private-2c              = module.vpc.dmz-private-2c
+  wechicken_master_username   = var.wechicken_master_username
+  wechicken_master_password   = var.wechicken_master_password
+}
